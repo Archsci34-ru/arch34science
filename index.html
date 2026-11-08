@@ -1,82 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>arch34science</title>
-<style>
-:root {
-  --bg: #ffffff; --text: #1d2433; --muted: #5b6475; --accent: #2f6fed; --card: #f3f5fa;
-  box-sizing: border-box;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #12151c; --text: #e8ebf2; --muted: #9aa3b5; --accent: #6b9bff; --card: #1c212c; }
-}
-:root[data-theme="dark"] { --bg: #12151c; --text: #e8ebf2; --muted: #9aa3b5; --accent: #6b9bff; --card: #1c212c; }
-* { box-sizing: border-box; }
-html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
-.wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
-header { border-bottom: 1px solid var(--card); }
-header .wrap { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap; gap: 8px; }
-.logo { font-weight: 700; font-size: 1.2rem; }
-nav a { color: var(--muted); text-decoration: none; margin-left: 18px; }
-nav a:hover { color: var(--accent); }
-.hero { padding: 64px 0 40px; text-align: center; }
-.hero h1 { font-size: 2.4rem; margin: 0 0 12px; }
-.hero p { color: var(--muted); font-size: 1.1rem; margin: 0; }
-section { padding: 32px 0; }
-h2 { margin: 0 0 16px; }
-video { width: 100%; max-width: 100%; border-radius: 12px; background: #000; aspect-ratio: 16 / 9; }
-.card { background: var(--card); border-radius: 12px; padding: 20px; }
-footer { border-top: 1px solid var(--card); padding: 24px 0; text-align: center; color: var(--muted); font-size: 0.9rem; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Археологический справочник ARCH34 — Волгоградская область и Нижнее Поволжье.">
+  <meta name="theme-color" content="#f5f3ed">
+  <title>ARCH34 — Археологический справочник</title>
+  <style>
+    :root{--ink:#20231f;--paper:#f5f3ed;--white:#fffefa;--muted:#73776e;--line:#deddd5;--olive:#687451;--clay:#a66043;--gold:#d5bd81;--shadow:0 12px 34px #20231f0a}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Georgia,"Times New Roman",serif}.wrap{width:min(1160px,100% - 48px);margin:auto}
+    .site-header{position:sticky;top:0;z-index:10;background:#f5f3edeb;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.header-inner{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{flex:none;color:inherit;text-decoration:none;font:700 14px system-ui;letter-spacing:.12em}.brand span{color:var(--clay)}.nav{display:flex;align-items:center;gap:clamp(10px,2vw,26px);font:13px system-ui}.nav a{position:relative;color:var(--muted);text-decoration:none;padding:27px 0;white-space:nowrap}.nav a:hover,.nav a[aria-current=page]{color:var(--ink)}.nav a[aria-current=page]:after{content:"";position:absolute;bottom:18px;left:0;right:0;height:2px;background:var(--clay)}
+    main{min-height:65vh}.hero{padding:88px 0 78px;border-bottom:1px solid var(--line)}.eyebrow{font:650 11px system-ui;letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}h1{font:500 clamp(42px,7vw,82px)/1.02 Georgia,serif;letter-spacing:-.045em;max-width:900px;margin:18px 0}.hero p{font-size:20px;color:#5c5e56;max-width:680px;margin:0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;padding:38px 0 20px}.section-head h2{font:500 31px/1.15 Georgia,serif;margin:0}.section-head p{font:13px system-ui;color:var(--muted);margin:0}
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:0 0 72px}.card{position:relative;overflow:hidden;min-height:218px;background:var(--white);border:1px solid var(--line);border-radius:7px;padding:24px;display:flex;flex-direction:column;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:transform .18s,border-color .18s}.card:hover{transform:translateY(-3px);border-color:var(--gold)}.card .meta{font:11px system-ui;letter-spacing:.1em;text-transform:uppercase;color:var(--clay)}.card h2,.card h3{font:500 27px/1.2 Georgia,serif;margin:14px 0 8px}.card p{color:#5e6059;margin:0 0 22px}.card .arrow{font:600 12px system-ui;color:var(--olive);margin-top:auto}.intro{max-width:820px;min-height:84px;padding:22px 26px;background:#eeece4;border-left:3px solid var(--gold);border-radius:0 5px 5px 0;color:#5e6059}.intro:empty{min-height:34px;padding:0;border:0;background:transparent}.page-hero{padding:62px 0 25px}.page-hero h1{font-size:clamp(42px,6vw,66px);margin:10px 0 24px}.subpages{padding-top:8px}.subpages .card{min-height:170px}
+    .work-in-progress{padding:90px 0 130px;text-align:center}.work-in-progress h1{font-size:clamp(42px,6vw,68px);margin:12px auto 14px}.work-in-progress p{color:var(--muted)}.site-footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font:12px system-ui;display:flex;justify-content:space-between;gap:12px}.site-footer a{color:var(--olive);text-decoration:none}
+    @media(max-width:900px){.header-inner{align-items:flex-start;flex-direction:column;gap:0;padding:16px 0 0}.nav{width:100%;overflow:auto;gap:20px}.nav a{padding:13px 0 18px}.nav a[aria-current=page]:after{bottom:10px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:62px 0 54px}}
+    @media(max-width:560px){.wrap{width:min(100% - 32px,1160px)}.cards{grid-template-columns:1fr}.card{min-height:175px}.section-head{align-items:flex-start;flex-direction:column}.hero p{font-size:18px}.page-hero{padding-top:42px}.site-footer{flex-direction:column}}
+  </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <span class="logo">arch34science</span>
-    <nav>
-      <a href="#video">Видео</a>
-      <a href="#about">О сайте</a>
-      <a href="#contacts">Контакты</a>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
-  <div class="hero">
-    <h1>Добро пожаловать</h1>
-    <p>Это простой сайт для хранения информации и видео.</p>
-  </div>
-
-  <section id="video">
-    <h2>Видеоплеер</h2>
-    <video controls poster="">
-      <!-- Сюда позже добавим файл: <source src="video.mp4" type="video/mp4"> -->
-      Ваш браузер не поддерживает видео.
-    </video>
-  </section>
-
-  <section id="about">
-    <h2>О сайте</h2>
-    <div class="card">
-      <p>Здесь будет описание проекта: что это, для кого и зачем. Этот текст можно заменить на любой свой.</p>
-    </div>
-  </section>
-
-  <section id="contacts">
-    <h2>Контакты</h2>
-    <div class="card">
-      <p>Почта: <a href="mailto:example@mail.com" style="color: var(--accent)">example@mail.com</a></p>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">© 2026 arch34science</div>
-</footer>
+  <header class="site-header"><div class="wrap header-inner">
+    <a class="brand" href="/" data-route="/">ARCH<span>34</span></a>
+    <nav class="nav" aria-label="Основная навигация" id="navigation"></nav>
+  </div></header>
+  <main id="app" class="wrap" tabindex="-1"></main>
+  <footer class="site-footer wrap"><span>© <span id="year"></span> ARCH34</span><a href="/admin/">Вход для редакции</a></footer>
+  <script>
+    const topNav=[
+      {label:'Главная',path:'/'},{label:'Каменный век',path:'/stone-age'},{label:'Бронзовый век',path:'/bronze-age'},
+      {label:'Раннежелезный век',path:'/early-iron-age'},{label:'Средние века',path:'/middle-ages'},{label:'Библиотека',path:'/library'},{label:'О нас',path:'/about'}
+    ];
+    const sections=[
+      {label:'Каменный век',path:'/stone-age',code:'Раздел 01',description:'Палеолит, мезолит, неолит и энеолит.'},
+      {label:'Бронзовый век',path:'/bronze-age',code:'Раздел 02',description:'Ямная, катакомбная и срубная культурно-исторические общности.'},
+      {label:'Раннежелезный век',path:'/early-iron-age',code:'Раздел 03',description:'Киммерийцы, савроматы, сарматы и гунны.'},
+      {label:'Средние века',path:'/middle-ages',code:'Раздел 04',description:'Раздел в разработке.'},
+      {label:'Библиотека',path:'/library',code:'Раздел 05',description:'Раздел в разработке.'},
+      {label:'О нас',path:'/about',code:'Раздел 06',description:'О проекте ARCH34.'}
+    ];
+    const groups={
+      '/stone-age':{title:'Каменный век',code:'Хронология · 01',children:[['Палеолит','/stone-age/paleolithic'],['Мезолит','/stone-age/mesolithic'],['Неолит','/stone-age/neolithic'],['Энеолит','/stone-age/eneolithic']]},
+      '/bronze-age':{title:'Бронзовый век',code:'Хронология · 02',children:[['Ямная КИО','/bronze-age/yamnaya'],['Катакомбная КИО','/bronze-age/catacomb'],['Срубная КИО','/bronze-age/srubnaya']]},
+      '/early-iron-age':{title:'Раннежелезный век',code:'Хронология · 03',children:[['Киммерийское время','/early-iron-age/cimmerian'],['Савроматское время','/early-iron-age/sauromatian'],['Сарматское время','/early-iron-age/sarmatian'],['Гуннское время','/early-iron-age/hunnic']]}
+    };
+    const childPages=Object.values(groups).flatMap(g=>g.children.map(([title,path])=>({title,path})));
+    const allPagePaths=['/','/stone-age','/bronze-age','/early-iron-age','/middle-ages','/library','/about',...childPages.map(x=>x.path)];
+    const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    document.getElementById('year').textContent=new Date().getFullYear();
+    const nav=document.getElementById('navigation'), app=document.getElementById('app');
+    function canonical(path){if(!path||path==='/')return '/';return path.replace(/\/+$/,'')}
+    function link(label,path,cls=''){return `<a class="${cls}" href="${path}" data-route="${path}">${esc(label)}</a>`}
+    let pageMap={};
+    const textBlock=(value,placeholder)=>value?`<div class="intro">${esc(value).replace(/\n/g,'<br>')}</div>`:`<div class="intro"><!-- CONTENT: ${placeholder} --></div>`;
+    function render(path){
+      path=canonical(path);
+      const content=pageMap[path]||{};
+      const active=topNav.find(x=>x.path===path)?.path||Object.entries(groups).find(([,g])=>g.children.some(x=>x[1]===path))?.[0]||'/';
+      nav.innerHTML=topNav.map(x=>`<a href="${canonical(x.path)}" data-route="${x.path}" ${x.path===active?'aria-current="page"':''}>${esc(x.label)}</a>`).join('');
+      document.title=`${content.title||topNav.find(x=>x.path===path)?.label||Object.values(groups).flatMap(x=>x.children).find(x=>x[1]===path)?.[0]||'ARCH34'} — ARCH34`;
+      const pageLabel=content.title||'';
+      if(path==='/'){
+        app.innerHTML=`<section class="hero"><div class="eyebrow">Научный портал · Нижнее Поволжье</div><h1>Археологический справочник Волгоградской области</h1><p>${content.intro?esc(content.intro):'<!-- CONTENT: краткое описание проекта -->'}</p></section>${content.body?`<section class="intro">${esc(content.body).replace(/\n/g,'<br>')}</section>`:''}<section><div class="section-head"><h2>Разделы справочника</h2><p>Выберите эпоху или тему</p></div><div class="cards">${sections.map(x=>`<a class="card" href="${canonical(x.path)}" data-route="${x.path}"><div class="meta">${x.code}</div><h3>${esc(x.label)}</h3><p>${esc(x.description)}</p><span class="arrow">Открыть раздел →</span></a>`).join('')}</div></section>`;
+        return;
+      }
+      if(groups[path]){
+        const g=groups[path];app.innerHTML=`<section class="page-hero"><div class="eyebrow">${g.code}</div><h1>${esc(content.title||g.title)}</h1>${textBlock(content.intro,`вводный текст раздела ${g.title}`)}</section>${content.body?`<section class="intro">${esc(content.body).replace(/\n/g,'<br>')}</section>`:''}<section class="subpages"><div class="section-head"><h2>Периоды и культуры</h2></div><div class="cards">${g.children.map(([title,url],i)=>`<a class="card" href="${canonical(url)}" data-route="${url}"><div class="meta">${g.code} · ${String(i+1).padStart(2,'0')}</div><h3>${esc(title)}</h3><span class="arrow">Открыть страницу →</span></a>`).join('')}</div></section>`;
+        return;
+      }
+      if(path==='/middle-ages'||path==='/library'){
+        app.innerHTML=`<section class="work-in-progress"><div class="eyebrow">ARCH34 · Справочник</div><h1>${path==='/middle-ages'?'Средние века':'Библиотека'}</h1><p>Раздел в разработке</p></section>`;return;
+      }
+      const child=childPages.find(x=>x.path===path);
+      if(child||path==='/about'){
+        const title=child?.title||'О нас';const parent=Object.entries(groups).find(([,g])=>g.children.some(x=>x[1]===path));
+        app.innerHTML=`<section class="page-hero"><div class="eyebrow">${parent?`<a href="${canonical(parent[0])}" data-route="${parent[0]}" style="color:inherit">${esc(groups[parent[0]].title)}</a> · ARCH34`:'ARCH34 · Проект'}</div><h1>${esc(content.title||title)}</h1>${textBlock(content.intro,`краткое описание страницы ${title}`)}</section><section><div class="section-head"><h2>${path==='/about'?'О проекте':'Материалы страницы'}</h2></div>${textBlock(content.body,`основной текст страницы ${title}`)}</section>`;return;
+      }
+      app.innerHTML=`<section class="work-in-progress"><div class="eyebrow">ARCH34</div><h1>Страница не найдена</h1>${link('На главную','/')}</section>`;
+    }
+    function navigate(path){history.pushState({},'',path);render(path);window.scrollTo(0,0);app.focus({preventScroll:true})}
+    document.addEventListener('click',e=>{const a=e.target.closest('a[data-route]');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(a.dataset.route)});
+    window.addEventListener('popstate',()=>render(location.pathname));
+    render(location.pathname);
+    fetch('/data/pages.json').then(r=>r.ok?r.json():{pages:[]}).then(data=>{pageMap=Object.fromEntries((data.pages||[]).filter(p=>p.route).map(p=>[canonical(p.route),p]));render(location.pathname)}).catch(()=>{});
+  </script>
 </body>
 </html>
