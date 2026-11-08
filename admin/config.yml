@@ -1,0 +1,56 @@
+backend:
+  name: turbo-github
+  turbo_site_id: bfbfa809-cbd3-4170-8229-b313b2c5c2b1
+  branch: cms-migration-preview
+
+publish_mode: editorial_workflow
+media_folder: "assets/images"
+public_folder: "/assets/images"
+locale: "ru"
+
+collections:
+  - name: "pages"
+    label: "Страницы справочника"
+    label_singular: "Страница справочника"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    summary: "{{title}}"
+    sortable_fields: ["title", "route"]
+    fields:
+      - { label: "Название страницы", name: "title", widget: "string" }
+      - { label: "Адрес страницы", name: "route", widget: "select", options: ["/", "/stone-age", "/stone-age/paleolithic", "/stone-age/mesolithic", "/stone-age/neolithic", "/stone-age/eneolithic", "/bronze-age", "/bronze-age/yamnaya", "/bronze-age/catacomb", "/bronze-age/srubnaya", "/early-iron-age", "/early-iron-age/cimmerian", "/early-iron-age/sauromatian", "/early-iron-age/sarmatian", "/early-iron-age/hunnic", "/middle-ages", "/library", "/news", "/about"] }
+      - { label: "Вводный текст", name: "intro", widget: "text", required: false }
+      - { label: "Основной текст", name: "body", widget: "text", required: false }
+  - name: "articles"
+    label: "Статьи"
+    label_singular: "Статья"
+    folder: "content/articles"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["date", "title", "author"]
+    fields:
+      - { label: "Название статьи", name: "title", widget: "string" }
+      - { label: "Короткое имя для ссылки", name: "slug", widget: "string", hint: "Например, keramika-sarmatov" }
+      - { label: "Краткое описание", name: "summary", widget: "text" }
+      - label: "Разместить в разделе сайта"
+        name: "category"
+        widget: "select"
+        hint: "Выберите, где эта статья должна появиться на сайте. Для новостей выберите раздел новостей."
+        options:
+          - "Каменный век"
+          - "Бронзовый век"
+          - "Ранний железный век"
+          - "Средние века"
+          - "Библиотека"
+          - "Новости Археологии Нижнего Поволжья"
+      - { label: "Автор", name: "author", widget: "string" }
+      - { label: "Дата публикации", name: "date", widget: "datetime", time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+      - { label: "Иллюстрация", name: "image", widget: "image", required: false }
+      - { label: "Текст статьи", name: "body", widget: "text" }
+      - { label: "Литература и источники", name: "bibliography", widget: "text", required: false }
