@@ -21,7 +21,7 @@ collections:
     sortable_fields: ["title", "route"]
     fields:
       - { label: "Название страницы", name: "title", widget: "string" }
-      - { label: "Адрес страницы", name: "route", widget: "select", options: ["/", "/stone-age", "/stone-age/paleolithic", "/stone-age/mesolithic", "/stone-age/neolithic", "/stone-age/eneolithic", "/bronze-age", "/bronze-age/yamnaya", "/bronze-age/catacomb", "/bronze-age/srubnaya", "/early-iron-age", "/early-iron-age/cimmerian", "/early-iron-age/sauromatian", "/early-iron-age/sarmatian", "/early-iron-age/hunnic", "/middle-ages", "/library", "/about"] }
+      - { label: "Адрес страницы", name: "route", widget: "select", options: ["/", "/stone-age", "/stone-age/paleolithic", "/stone-age/mesolithic", "/stone-age/neolithic", "/stone-age/eneolithic", "/bronze-age", "/bronze-age/yamnaya", "/bronze-age/catacomb", "/bronze-age/srubnaya", "/early-iron-age", "/early-iron-age/cimmerian", "/early-iron-age/sauromatian", "/early-iron-age/sarmatian", "/early-iron-age/hunnic", "/middle-ages", "/library", "/news", "/about"] }
       - { label: "Вводный текст", name: "intro", widget: "text", required: false }
       - { label: "Основной текст", name: "body", widget: "text", required: false }
   - name: "articles"
@@ -38,7 +38,17 @@ collections:
       - { label: "Название статьи", name: "title", widget: "string" }
       - { label: "Короткое имя для ссылки", name: "slug", widget: "string", hint: "Например, keramika-sarmatov" }
       - { label: "Краткое описание", name: "summary", widget: "text" }
-      - { label: "Раздел", name: "category", widget: "select", options: ["История региона", "Каменный век", "Бронзовый век", "Сарматы", "Археологические памятники", "Исследования"] }
+      - label: "Разместить в разделе сайта"
+        name: "category"
+        widget: "select"
+        hint: "Выберите, где эта статья должна появиться на сайте. Для новостей выберите раздел новостей."
+        options:
+          - "Каменный век"
+          - "Бронзовый век"
+          - "Ранний железный век"
+          - "Средние века"
+          - "Библиотека"
+          - "Новости Археологии Нижнего Поволжья"
       - { label: "Автор", name: "author", widget: "string" }
       - { label: "Дата публикации", name: "date", widget: "datetime", time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
       - { label: "Иллюстрация", name: "image", widget: "image", required: false }

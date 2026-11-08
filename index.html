@@ -27,29 +27,30 @@
   <script>
     const topNav=[
       {label:'Главная',path:'/'},{label:'Каменный век',path:'/stone-age'},{label:'Бронзовый век',path:'/bronze-age'},
-      {label:'Раннежелезный век',path:'/early-iron-age'},{label:'Средние века',path:'/middle-ages'},{label:'Библиотека',path:'/library'},{label:'О нас',path:'/about'}
+      {label:'Ранний железный век',path:'/early-iron-age'},{label:'Средние века',path:'/middle-ages'},{label:'Библиотека',path:'/library'},{label:'Новости Археологии Нижнего Поволжья',path:'/news'},{label:'О нас',path:'/about'}
     ];
     const sections=[
       {label:'Каменный век',path:'/stone-age',code:'Раздел 01',description:'Палеолит, мезолит, неолит и энеолит.'},
       {label:'Бронзовый век',path:'/bronze-age',code:'Раздел 02',description:'Ямная, катакомбная и срубная культурно-исторические общности.'},
-      {label:'Раннежелезный век',path:'/early-iron-age',code:'Раздел 03',description:'Киммерийцы, савроматы, сарматы и гунны.'},
+      {label:'Ранний железный век',path:'/early-iron-age',code:'Раздел 03',description:'Киммерийцы, савроматы, сарматы и гунны.'},
       {label:'Средние века',path:'/middle-ages',code:'Раздел 04',description:'Раздел в разработке.'},
       {label:'Библиотека',path:'/library',code:'Раздел 05',description:'Раздел в разработке.'},
-      {label:'О нас',path:'/about',code:'Раздел 06',description:'О проекте ARCH34.'}
+      {label:'Новости Археологии Нижнего Поволжья',path:'/news',code:'Новости',description:'Новости исследований, экспедиций и археологических открытий.'},
+      {label:'О нас',path:'/about',code:'Раздел 07',description:'О проекте ARCH34.'}
     ];
     const groups={
       '/stone-age':{title:'Каменный век',code:'Хронология · 01',children:[['Палеолит','/stone-age/paleolithic'],['Мезолит','/stone-age/mesolithic'],['Неолит','/stone-age/neolithic'],['Энеолит','/stone-age/eneolithic']]},
       '/bronze-age':{title:'Бронзовый век',code:'Хронология · 02',children:[['Ямная КИО','/bronze-age/yamnaya'],['Катакомбная КИО','/bronze-age/catacomb'],['Срубная КИО','/bronze-age/srubnaya']]},
-      '/early-iron-age':{title:'Раннежелезный век',code:'Хронология · 03',children:[['Киммерийское время','/early-iron-age/cimmerian'],['Савроматское время','/early-iron-age/sauromatian'],['Сарматское время','/early-iron-age/sarmatian'],['Гуннское время','/early-iron-age/hunnic']]}
+      '/early-iron-age':{title:'Ранний железный век',code:'Хронология · 03',children:[['Киммерийское время','/early-iron-age/cimmerian'],['Савроматское время','/early-iron-age/sauromatian'],['Сарматское время','/early-iron-age/sarmatian'],['Гуннское время','/early-iron-age/hunnic']]}
     };
     const childPages=Object.values(groups).flatMap(g=>g.children.map(([title,path])=>({title,path})));
-    const allPagePaths=['/','/stone-age','/bronze-age','/early-iron-age','/middle-ages','/library','/about',...childPages.map(x=>x.path)];
+    const allPagePaths=['/','/stone-age','/bronze-age','/early-iron-age','/middle-ages','/library','/news','/about',...childPages.map(x=>x.path)];
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     document.getElementById('year').textContent=new Date().getFullYear();
     const nav=document.getElementById('navigation'), app=document.getElementById('app');
     function canonical(path){if(!path||path==='/')return '/';return path.replace(/\/+$/,'')}
     function link(label,path,cls=''){return `<a class="${cls}" href="${path}" data-route="${path}">${esc(label)}</a>`}
-    let pageMap={};
+    let pageMap={},articles=[];
     const textBlock=(value,placeholder)=>value?`<div class="intro">${esc(value).replace(/\n/g,'<br>')}</div>`:`<div class="intro"><!-- CONTENT: ${placeholder} --></div>`;
     function render(path){
       path=canonical(path);
@@ -63,8 +64,14 @@
         return;
       }
       if(groups[path]){
-        const g=groups[path];app.innerHTML=`<section class="page-hero"><div class="eyebrow">${g.code}</div><h1>${esc(content.title||g.title)}</h1>${textBlock(content.intro,`вводный текст раздела ${g.title}`)}</section>${content.body?`<section class="intro">${esc(content.body).replace(/\n/g,'<br>')}</section>`:''}<section class="subpages"><div class="section-head"><h2>Периоды и культуры</h2></div><div class="cards">${g.children.map(([title,url],i)=>`<a class="card" href="${canonical(url)}" data-route="${url}"><div class="meta">${g.code} · ${String(i+1).padStart(2,'0')}</div><h3>${esc(title)}</h3><span class="arrow">Открыть страницу →</span></a>`).join('')}</div></section>`;
+        const g=groups[path], sectionName=g.title;
+        const related=articles.filter(a=>a.category===sectionName&&a.published!==false);
+        app.innerHTML=`<section class="page-hero"><div class="eyebrow">${g.code}</div><h1>${esc(content.title||g.title)}</h1>${textBlock(content.intro,`вводный текст раздела ${g.title}`)}</section>${content.body?`<section class="intro">${esc(content.body).replace(/\n/g,'<br>')}</section>`:''}<section class="subpages"><div class="section-head"><h2>Периоды и культуры</h2></div><div class="cards">${g.children.map(([title,url],i)=>`<a class="card" href="${canonical(url)}" data-route="${url}"><div class="meta">${g.code} · ${String(i+1).padStart(2,'0')}</div><h3>${esc(title)}</h3><span class="arrow">Открыть страницу →</span></a>`).join('')}</div></section>${articleSection(sectionName,related)}`;
         return;
+      }
+      if(path==='/news'){
+        const items=articles.filter(a=>a.category==='Новости Археологии Нижнего Поволжья'&&a.published!==false);
+        app.innerHTML=`<section class="page-hero"><div class="eyebrow">ARCH34 · Нижнее Поволжье</div><h1>Новости Археологии Нижнего Поволжья</h1>${textBlock(content.intro,'вводный текст раздела новостей')}</section>${articleSection('Новости Археологии Нижнего Поволжья',items,'Пока новостей нет. Новые публикации появятся здесь.')}`;return;
       }
       if(path==='/middle-ages'||path==='/library'){
         app.innerHTML=`<section class="work-in-progress"><div class="eyebrow">ARCH34 · Справочник</div><h1>${path==='/middle-ages'?'Средние века':'Библиотека'}</h1><p>Раздел в разработке</p></section>`;return;
@@ -76,11 +83,14 @@
       }
       app.innerHTML=`<section class="work-in-progress"><div class="eyebrow">ARCH34</div><h1>Страница не найдена</h1>${link('На главную','/')}</section>`;
     }
+    function articleSection(title,items,emptyText='Публикаций пока нет.'){
+      return `<section><div class="section-head"><h2>${esc(title)}</h2></div>${items.length?`<div class="cards">${items.map(a=>`<a class="card" href="/article.html?slug=${encodeURIComponent(a.slug||'')}" data-article><div class="meta">${esc(a.date||'ARCH34')}</div><h3>${esc(a.title||'Без названия')}</h3><p>${esc(a.summary||'')}</p><span class="arrow">Читать материал →</span></a>`).join('')}</div>`:`<div class="intro">${esc(emptyText)}</div>`}</section>`;
+    }
     function navigate(path){history.pushState({},'',path);render(path);window.scrollTo(0,0);app.focus({preventScroll:true})}
     document.addEventListener('click',e=>{const a=e.target.closest('a[data-route]');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(a.dataset.route)});
     window.addEventListener('popstate',()=>render(location.pathname));
     render(location.pathname);
-    fetch('/data/pages.json').then(r=>r.ok?r.json():{pages:[]}).then(data=>{pageMap=Object.fromEntries((data.pages||[]).filter(p=>p.route).map(p=>[canonical(p.route),p]));render(location.pathname)}).catch(()=>{});
+    Promise.all([fetch('/data/pages.json').then(r=>r.ok?r.json():{pages:[]}),fetch('/data/articles.json').then(r=>r.ok?r.json():{articles:[]})]).then(([pageData,articleData])=>{pageMap=Object.fromEntries((pageData.pages||[]).filter(p=>p.route).map(p=>[canonical(p.route),p]));articles=articleData.articles||[];render(location.pathname)}).catch(()=>{});
   </script>
 </body>
 </html>
