@@ -5,6 +5,7 @@ const root = process.cwd();
 const out = path.join(root, 'dist');
 await mkdir(out, { recursive: true });
 for (const file of ['index.html', 'article.html']) await cp(path.join(root, file), path.join(out, file));
+try { await cp(path.join(root, 'CNAME'), path.join(out, 'CNAME')); } catch { /* custom domain is optional in local previews */ }
 try { await cp(path.join(root, '_redirects'), path.join(out, '_redirects')); } catch { /* optional Netlify redirects */ }
 for (const folder of ['admin', 'assets']) {
   try { await cp(path.join(root, folder), path.join(out, folder), { recursive: true }); } catch { /* folder is optional */ }
@@ -28,3 +29,20 @@ try {
 await mkdir(path.join(out, 'data'), { recursive: true });
 await writeFile(path.join(out, 'data', 'articles.json'), JSON.stringify({ articles }, null, 2), 'utf8');
 await writeFile(path.join(out, 'data', 'pages.json'), JSON.stringify({ pages }, null, 2), 'utf8');
+
+// GitHub Pages does not support Netlify's SPA redirects, so emit a real entry
+// page for every route. This keeps direct links working with an HTTP 200.
+const routes = [
+  '/', '/stone-age', '/stone-age/paleolithic', '/stone-age/mesolithic',
+  '/stone-age/neolithic', '/stone-age/eneolithic', '/bronze-age',
+  '/bronze-age/yamnaya', '/bronze-age/catacomb', '/bronze-age/srubnaya',
+  '/early-iron-age', '/early-iron-age/cimmerian', '/early-iron-age/sauromatian',
+  '/early-iron-age/sarmatian', '/early-iron-age/hunnic', '/middle-ages',
+  '/library', '/news', '/about'
+];
+for (const route of routes) {
+  if (route === '/') continue;
+  const routeDir = path.join(out, route.slice(1));
+  await mkdir(routeDir, { recursive: true });
+  await cp(path.join(root, 'index.html'), path.join(routeDir, 'index.html'));
+}
