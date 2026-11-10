@@ -21,7 +21,7 @@ collections:
     sortable_fields: ["title", "route"]
     fields:
       - { label: "Название страницы", name: "title", widget: "string" }
-      - { label: "Адрес страницы", name: "route", widget: "select", options: ["/", "/stone-age", "/stone-age/paleolithic", "/stone-age/mesolithic", "/stone-age/neolithic", "/stone-age/eneolithic", "/bronze-age", "/bronze-age/yamnaya", "/bronze-age/catacomb", "/bronze-age/srubnaya", "/early-iron-age", "/early-iron-age/cimmerian", "/early-iron-age/sauromatian", "/early-iron-age/sarmatian", "/early-iron-age/hunnic", "/middle-ages", "/library", "/news", "/about"] }
+      - { label: "Адрес страницы", name: "route", widget: "select", options: ["/", "/stone-age", "/stone-age/paleolithic", "/stone-age/mesolithic", "/stone-age/neolithic", "/stone-age/eneolithic", "/bronze-age", "/bronze-age/yamnaya", "/bronze-age/catacomb", "/bronze-age/srubnaya", "/early-iron-age", "/early-iron-age/cimmerian", "/early-iron-age/sauromatian", "/early-iron-age/sarmatian", "/early-iron-age/hunnic", "/middle-ages", "/library", "/news", "/journal", "/about"] }
       - { label: "Вводный текст", name: "intro", widget: "text", required: false }
       - { label: "Основной текст", name: "body", widget: "text", required: false }
   - name: "articles"
@@ -54,3 +54,32 @@ collections:
       - { label: "Иллюстрация", name: "image", widget: "image", required: false }
       - { label: "Текст статьи", name: "body", widget: "text" }
       - { label: "Литература и источники", name: "bibliography", widget: "text", required: false }
+  - name: "journal"
+    label: "Журнал ARCH34"
+    label_singular: "Статья журнала"
+    folder: "content/journal"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    summary: "{{title}} · {{author}}"
+    sortable_fields: ["date", "title", "author", "category"]
+    fields:
+      - { label: "Название статьи", name: "title", widget: "string" }
+      - { label: "Короткий адрес статьи", name: "slug", widget: "string", hint: "Латинскими буквами и через дефис, например: istoriya-poseleniya" }
+      - { label: "ФИО автора", name: "author", widget: "string" }
+      - { label: "Краткое описание", name: "summary", widget: "text", required: false }
+      - { label: "Обложка статьи", name: "cover", widget: "image", required: false }
+      - label: "Категория"
+        name: "category"
+        widget: "select"
+        options:
+          - "Археология"
+          - "История"
+          - "Антропология"
+          - "Культурное наследие"
+      - { label: "Ключевые слова", name: "keywords", widget: "list", field: { label: "Слово или выражение", name: "keyword", widget: "string" }, required: false, hint: "По этим словам читатели смогут найти статью через поиск." }
+      - { label: "Текст статьи", name: "body", widget: "richtext", modes: ["rich_text", "raw"], hint: "Вставляйте текст и изображения в редакторе. Для подписи под иллюстрацией переключитесь в режим исходного текста и добавьте к ссылке подпись в кавычках: ![Описание](путь-к-файлу \"Подпись к изображению\")." }
+      - { label: "Литература и источники", name: "bibliography", widget: "richtext", modes: ["rich_text", "raw"], required: false }
+      - { label: "Дата публикации", name: "date", widget: "datetime", time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
+      - { label: "Опубликована на сайте", name: "published", widget: "boolean", default: true, hint: "Выключите, чтобы снять статью с сайта после сохранения и публикации изменений." }
