@@ -11,4 +11,4 @@ This branch is a staging copy of the public ARCH34 repository. It contains the f
 Netlify build command: node build.mjs
 Published folder: dist
 
-This branch is intended for preview before launch. The live `main` branch and `arch34science.ru` domain remain unchanged until launch is ready.
+The production site is published to `arch34science.ru` through GitHub Pages. The Netlify preview project is kept for checking changes before launch.

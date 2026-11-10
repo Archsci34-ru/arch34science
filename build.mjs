@@ -26,9 +26,36 @@ try {
     pages.push(JSON.parse(await readFile(path.join(pageDir, file), 'utf8')));
   }
 } catch { /* pages can be filled in later */ }
+const journalDir = path.join(root, 'content', 'journal');
+let journal = [];
+try {
+  for (const file of await readdir(journalDir)) {
+    if (!file.endsWith('.json')) continue;
+    const article = JSON.parse(await readFile(path.join(journalDir, file), 'utf8'));
+    if (article.published === false) continue;
+    if (!article.slug || !/^[a-z0-9][a-z0-9-]*$/.test(article.slug)) {
+      throw new Error(`Invalid journal article slug in ${file}: use Latin letters, numbers, and hyphens.`);
+    }
+    journal.push(article);
+  }
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
+const journalCategoriesDir = path.join(root, 'content', 'journal-categories');
+let journalCategories = [];
+try {
+  for (const file of await readdir(journalCategoriesDir)) {
+    if (!file.endsWith('.json')) continue;
+    journalCategories.push(JSON.parse(await readFile(path.join(journalCategoriesDir, file), 'utf8')));
+  }
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
 await mkdir(path.join(out, 'data'), { recursive: true });
 await writeFile(path.join(out, 'data', 'articles.json'), JSON.stringify({ articles }, null, 2), 'utf8');
 await writeFile(path.join(out, 'data', 'pages.json'), JSON.stringify({ pages }, null, 2), 'utf8');
+await writeFile(path.join(out, 'data', 'journal.json'), JSON.stringify({ articles: journal }, null, 2), 'utf8');
+await writeFile(path.join(out, 'data', 'journal-categories.json'), JSON.stringify({ categories: journalCategories }, null, 2), 'utf8');
 
 // GitHub Pages does not support Netlify's SPA redirects, so emit a real entry
 // page for every route. This keeps direct links working with an HTTP 200.
@@ -38,7 +65,8 @@ const routes = [
   '/bronze-age/yamnaya', '/bronze-age/catacomb', '/bronze-age/srubnaya',
   '/early-iron-age', '/early-iron-age/cimmerian', '/early-iron-age/sauromatian',
   '/early-iron-age/sarmatian', '/early-iron-age/hunnic', '/middle-ages',
-  '/library', '/news', '/about'
+  '/library', '/news', '/journal', '/about',
+  ...journal.map(article => `/journal/${article.slug}`)
 ];
 for (const route of routes) {
   if (route === '/') continue;
