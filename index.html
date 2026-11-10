@@ -53,7 +53,7 @@
     const nav=document.getElementById('navigation'), app=document.getElementById('app');
     function canonical(path){if(!path||path==='/')return '/';return path.replace(/\/+$/,'')}
     function link(label,path,cls=''){return `<a class="${cls}" href="${path}" data-route="${path}">${esc(label)}</a>`}
-    let pageMap={},articles=[],journal=[];
+    let pageMap={},articles=[],journal=[],journalCategories=[];
     const textBlock=(value,placeholder)=>value?`<div class="intro">${esc(value).replace(/\n/g,'<br>')}</div>`:`<div class="intro"><!-- CONTENT: ${placeholder} --></div>`;
     function render(path){
       path=canonical(path);
@@ -93,7 +93,7 @@
       app.innerHTML=`<section class="work-in-progress"><div class="eyebrow">ARCH34</div><h1>Страница не найдена</h1>${link('На главную','/')}</section>`;
     }
     function renderJournalCatalog(){
-      const categories=[...new Set(['Археология','История','Антропология','Культурное наследие',...journal.map(a=>a.category).filter(Boolean)])];
+      const categories=[...new Set([...journalCategories.map(c=>c.title),...journal.map(a=>a.category).filter(Boolean)])];
       app.innerHTML=`<section class="page-hero"><div class="eyebrow">ARCH34 · Научно-популярный журнал</div><h1>Журнал ARCH34</h1><div class="intro">Статьи об археологии, истории и культурном наследии Нижнего Поволжья.</div></section><section><div class="section-head"><h2>Публикации</h2><p>Материалы редакции и авторов</p></div><div class="journal-tools"><label>Поиск по журналу<input id="journal-search" type="search" placeholder="Название, автор, тема или слово из текста" autocomplete="off"></label><label>Категория<select id="journal-category"><option value="">Все категории</option>${categories.map(c=>`<option>${esc(c)}</option>`).join('')}</select></label><label>Сортировка<select id="journal-sort"><option value="newest">Сначала новые</option><option value="oldest">Сначала старые</option></select></label></div><div id="journal-count" class="journal-count" aria-live="polite"></div><div id="journal-results" class="journal-grid"></div></section>`;
       const search=document.getElementById('journal-search'),category=document.getElementById('journal-category'),sort=document.getElementById('journal-sort');
       const update=()=>{
@@ -131,7 +131,7 @@
     document.addEventListener('click',e=>{const a=e.target.closest('a[data-route]');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(a.dataset.route)});
     window.addEventListener('popstate',()=>render(location.pathname));
     render(location.pathname);
-    Promise.all([fetch('/data/pages.json').then(r=>r.ok?r.json():{pages:[]}),fetch('/data/articles.json').then(r=>r.ok?r.json():{articles:[]}),fetch('/data/journal.json').then(r=>r.ok?r.json():{articles:[]})]).then(([pageData,articleData,journalData])=>{pageMap=Object.fromEntries((pageData.pages||[]).filter(p=>p.route).map(p=>[canonical(p.route),p]));articles=articleData.articles||[];journal=journalData.articles||[];render(location.pathname)}).catch(()=>{});
+    Promise.all([fetch('/data/pages.json').then(r=>r.ok?r.json():{pages:[]}),fetch('/data/articles.json').then(r=>r.ok?r.json():{articles:[]}),fetch('/data/journal.json').then(r=>r.ok?r.json():{articles:[]}),fetch('/data/journal-categories.json').then(r=>r.ok?r.json():{categories:[]})]).then(([pageData,articleData,journalData,categoryData])=>{pageMap=Object.fromEntries((pageData.pages||[]).filter(p=>p.route).map(p=>[canonical(p.route),p]));articles=articleData.articles||[];journal=journalData.articles||[];journalCategories=categoryData.categories||[];render(location.pathname)}).catch(()=>{});
   </script>
 </body>
 </html>

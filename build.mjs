@@ -41,10 +41,21 @@ try {
 } catch (error) {
   if (error.code !== 'ENOENT') throw error;
 }
+const journalCategoriesDir = path.join(root, 'content', 'journal-categories');
+let journalCategories = [];
+try {
+  for (const file of await readdir(journalCategoriesDir)) {
+    if (!file.endsWith('.json')) continue;
+    journalCategories.push(JSON.parse(await readFile(path.join(journalCategoriesDir, file), 'utf8')));
+  }
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
 await mkdir(path.join(out, 'data'), { recursive: true });
 await writeFile(path.join(out, 'data', 'articles.json'), JSON.stringify({ articles }, null, 2), 'utf8');
 await writeFile(path.join(out, 'data', 'pages.json'), JSON.stringify({ pages }, null, 2), 'utf8');
 await writeFile(path.join(out, 'data', 'journal.json'), JSON.stringify({ articles: journal }, null, 2), 'utf8');
+await writeFile(path.join(out, 'data', 'journal-categories.json'), JSON.stringify({ categories: journalCategories }, null, 2), 'utf8');
 
 // GitHub Pages does not support Netlify's SPA redirects, so emit a real entry
 // page for every route. This keeps direct links working with an HTTP 200.

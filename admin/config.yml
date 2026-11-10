@@ -72,14 +72,27 @@ collections:
       - { label: "Обложка статьи", name: "cover", widget: "image", required: false }
       - label: "Категория"
         name: "category"
-        widget: "select"
-        options:
-          - "Археология"
-          - "История"
-          - "Антропология"
-          - "Культурное наследие"
+        widget: "relation"
+        collection: "journal-categories"
+        search_fields: ["title"]
+        value_field: "title"
+        display_fields: ["title"]
+        hint: "Выберите категорию. Чтобы добавить новую, сначала создайте её в разделе «Категории журнала»."
       - { label: "Ключевые слова", name: "keywords", widget: "list", field: { label: "Слово или выражение", name: "keyword", widget: "string" }, required: false, hint: "По этим словам читатели смогут найти статью через поиск." }
       - { label: "Текст статьи", name: "body", widget: "richtext", modes: ["rich_text", "raw"], hint: "Вставляйте текст и изображения в редакторе. Для подписи под иллюстрацией переключитесь в режим исходного текста и добавьте к ссылке подпись в кавычках: ![Описание](путь-к-файлу \"Подпись к изображению\")." }
       - { label: "Литература и источники", name: "bibliography", widget: "richtext", modes: ["rich_text", "raw"], required: false }
       - { label: "Дата публикации", name: "date", widget: "datetime", time_format: false, date_format: "YYYY-MM-DD", format: "YYYY-MM-DD" }
       - { label: "Опубликована на сайте", name: "published", widget: "boolean", default: true, hint: "Выключите, чтобы снять статью с сайта после сохранения и публикации изменений." }
+  - name: "journal-categories"
+    label: "Категории журнала"
+    label_singular: "Категория журнала"
+    folder: "content/journal-categories"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    summary: "{{title}}"
+    sortable_fields: ["title"]
+    fields:
+      - { label: "Название категории", name: "title", widget: "string" }
+      - { label: "Короткое описание", name: "description", widget: "text", required: false }
